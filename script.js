@@ -3,9 +3,12 @@ const background = document.getElementById("bg");
 const wrapper = document.getElementById("tiles");
 const title = document.getElementById("title");
 const circleText = document.getElementsByClassName("circle_text")
+var isLandingPageClicked = false;
 let cols ,rows ;
 
 const handleOnClick = index => {
+    if (isLandingPageClicked) return
+    isLandingPageClicked = true;
     var blinker;
     let header = document.getElementsByTagName("header")[0]
     let main = document.getElementById("main_page")
