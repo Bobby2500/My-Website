@@ -1005,6 +1005,7 @@ main {
     position: absolute;
     background-color: transparent;
     z-index: -1;
+    right: 0;
     width: 100vw;
     height: calc(100vh - var(--header-height));
     padding: 5vh 0;
