@@ -650,11 +650,9 @@ const createProject = () => {
         for (let tabs of projectContent.getElementsByClassName("project_tab")) {
             tabs.onclick = e => {
                 let title = e.currentTarget.getElementsByClassName("project_title")[0]
-                projectIndex = projectTitle.indexOf(title.innerText)
-    
-                console.log(projectTitle)
-                console.log(title.innerText)
-
+                let titleString = title.innerText
+                projectIndex = projectTitle.indexOf(title.innerText.trim())
+                
                 projectExpandedCover.classList.add("project_expanded_toggle")
                 
                 projectExpandedCover.innerHTML = "<div id=\"project_expanded\"></div>"
@@ -1404,18 +1402,21 @@ const updateWindow = () => {
     createTimeline()
     createProject()
     let projectExpandedText = document.getElementById("project_text")
-    formatToIndividualDiv(projectExpandedText, projectText[projectIndex])
-    projectExpandedText.innerHTML =  projectExpandedText.innerHTML + `<div class="fill_text new_line" style="opacity: 0">
-                                                                        <div></div>
-                                                                        <div>.</div>
-                                                                      </div>
-                                                                      <div class="fill_text">
-                                                                        <div></div>
-                                                                        <div><a id="project_link" href="https://${projectLinks[projectIndex]}" target="_blank">link to the project</a></div>
-                                                                      </div>`
-                                                                      
-    document.getElementById("project_link").onclick = e => {
-        window.open(e.currentTarget.getAttribute("href"), "_blank")
+    try {
+        formatToIndividualDiv(projectExpandedText, projectText[projectIndex])
+        projectExpandedText.innerHTML =  projectExpandedText.innerHTML + `<div class="fill_text new_line" style="opacity: 0">
+                                                                            <div></div>
+                                                                            <div>.</div>
+                                                                          </div>
+                                                                          <div class="fill_text">
+                                                                            <div></div>
+                                                                            <div><a id="project_link" href="https://${projectLinks[projectIndex]}" target="_blank">link to the project</a></div>
+                                                                          </div>`
+        document.getElementById("project_link").onclick = e => {
+            window.open(e.currentTarget.getAttribute("href"), "_blank")
+        }
+    } catch (err) {
+
     }
 }
 
