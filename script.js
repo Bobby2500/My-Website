@@ -1,3 +1,11 @@
+// To make it easier to search for functions specific to each section of the page:
+// nav bar - nav_bar
+// main page - main_page
+// about me page - about_page
+// timeline page - timeline_page
+// project page - project_page
+// feedback page - feedback_page
+
 const gridPixelSize = 60;
 const background = document.getElementById("bg");
 const wrapper = document.getElementById("tiles");
@@ -6,6 +14,8 @@ const circleText = document.getElementsByClassName("circle_text")
 var isLandingPageClicked = false;
 let cols ,rows ;
 
+// handleOnClick is called by a click event listener on the landing page.
+// It would trigger the first set of animations of removing the grid and loading in the nav bar and main page
 const handleOnClick = index => {
     if (isLandingPageClicked) return
     isLandingPageClicked = true;
@@ -15,6 +25,7 @@ const handleOnClick = index => {
     let mainNav = document.getElementById("main_nav_container")
     mainNav.style.setProperty("--nav-height", `${mainNav.clientHeight}px`)
     
+    // Begins scale down of grids
     anime({
         targets: ".tile",
         scale: [
@@ -36,6 +47,7 @@ const handleOnClick = index => {
             wrapper.remove();
             title.remove();
             
+            // Begins writing 
             anime({
                 targets: '#welcome',
                 width: [0,"8ch"],
@@ -70,10 +82,12 @@ const handleOnClick = index => {
                             blinkerTarget.appendChild(blinkerObj)
                         },
                         complete: () => {
-
+                            
+                            // Loads nav borders
                             header.style.setProperty("--op", 1);
                             header.classList.add("border_toggle")
                             
+                            // Loads logo
                             anime({
                                 targets: "#logo path",
                                 strokeDashoffset: [anime.setDashoffset, 0],
@@ -84,6 +98,7 @@ const handleOnClick = index => {
                                 loop: false
                             });
                             
+                            // Loads page anchors and links
                             anime({
                                 targets: "nav > div:nth-child(n+2) > a",
                                 easing: 'easeInOutSine',
@@ -91,6 +106,8 @@ const handleOnClick = index => {
                                 delay: 1000,
                                 duration: 2000,
                                 complete: () => {
+
+                                    // Brings out nav circle text
                                     anime({
                                         targets: "#main_nav_container span",
                                         keyframes: [
@@ -105,6 +122,7 @@ const handleOnClick = index => {
                                             main.style.setProperty("--op-nav", 1);
                                         },
                                         complete: () => {
+                                            // Rotates nav circle text
                                             anime({
                                                 targets: "#main_nav_container .circle_text",
                                                 rotate: [0,360],
@@ -117,6 +135,7 @@ const handleOnClick = index => {
                                 }
                             });
                             
+                            // Loads in subtext
                             anime ({
                                 targets: "#flasher > div:first-child",
                                 left: ["50%", 0],
@@ -145,6 +164,7 @@ const handleOnClick = index => {
     });
 }
 
+// Triggers when the title on the landing page is clicked. Assumes the middle of the page to start scale down of grids.
 const handleTitleOnClick = () => {
     
     let centerCol = Math.floor(cols/2); 
@@ -168,6 +188,7 @@ const createTiles = num => {
         wrapper.appendChild(createTile(index));
     })
     
+    // Increases and decreases the "pores" on landing page
     anime({
         targets: ".tile",
         borderRadius: ["2px", "4.2px"],
@@ -181,7 +202,7 @@ const createTiles = num => {
 
 }
 
-
+// Finds resolution od screen and calculates dimensions of tiles
 const createGrid = () => {
     wrapper.innerHTML = "";
     
@@ -197,10 +218,12 @@ const createGrid = () => {
     createTiles (cols * rows);
 }
 
+// Separates nav circle texts into individual spans
 for (let obj of circleText) {
     obj.innerHTML = obj.innerText.split("").map(
         (char, i) => {
             if (i == 0) {
+                // Needed to avoid overlapping
                 return `<span> </span><span>${char}</span>`
             } 
             return `<span>${char}</span>`
@@ -218,6 +241,7 @@ const collapsible = document.getElementById("collapsible")
 const navbar = [document.getElementById("nav_link"), document.getElementById("nav_feedback"), document.getElementById("nav_social")]
 var toggle = false
 
+// nav bar toggle for mobile
 const toggleNavbar = transY => {
     for (let index in navbar) {
         navbar[index].style.setProperty("--transY", `${transY}vh`);
@@ -227,6 +251,7 @@ const toggleNavbar = transY => {
 collapsible.style.setProperty("--deg", "0deg");
 toggleNavbar(-100);
 
+// Toggles nav bar for mobile
 collapsible.onclick = e => {
     toggle = !toggle;
     if(toggle) {
@@ -1356,7 +1381,7 @@ if(!navigator.userAgent.match(/chrome|chromium|crios/i)){
     alert("This website runs best on chrome browsers, some features may not work as intended. Please revisit using a chrome browser, Thank you !")
 }
 if (window.innerWidth <= 1025 && !isUserWindowAlerted) {
-    alert("Unfortunately this website is currently available for mobile devices :( Please revisit with a wider screen, Thank you !")
+    alert("Unfortunately this website is not currently available for mobile devices :( Please revisit with a wider screen, Thank you !")
     isUserWindowAlerted = true
 }
 
@@ -1365,7 +1390,7 @@ if (window.innerWidth <= 1025 && !isUserWindowAlerted) {
 const updateWindow = () => {
     
     if (window.innerWidth <= 1025 && !isUserWindowAlerted) {
-        alert("Unfortunately this website not available for mobile devices :( Please revisit with a wider screen, Thank you !")
+        alert("Unfortunately this website not available for small dimensions :( Please expand your screen, Thank you !")
         isUserWindowAlerted = true
     }
     
